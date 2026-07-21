@@ -6,66 +6,111 @@
 <title>Creative Guild</title>
 
 <style>
-body{
+*{
 margin:0;
+padding:0;
+box-sizing:border-box;
 font-family:Arial,sans-serif;
-background:#0d1117;
+}
+
+body{
+background:#0b0f17;
 color:white;
-text-align:center;
 }
 
 header{
-padding:80px 20px;
-background:linear-gradient(135deg,#6a00ff,#8f00ff);
+height:100vh;
+display:flex;
+justify-content:center;
+align-items:center;
+flex-direction:column;
+text-align:center;
+padding:20px;
+background:linear-gradient(135deg,#0b0f17,#151d2e);
 }
 
 h1{
-font-size:60px;
-margin:0;
+font-size:58px;
+margin-bottom:20px;
 }
 
 p{
 font-size:20px;
-opacity:.9;
+color:#cfcfcf;
+max-width:700px;
+line-height:1.6;
 }
 
 .button{
-display:inline-block;
-margin-top:25px;
-padding:15px 35px;
-background:white;
-color:#6a00ff;
+margin-top:40px;
+padding:16px 42px;
+background:#00d9ff;
+color:#000;
+font-weight:bold;
 text-decoration:none;
 border-radius:12px;
-font-weight:bold;
 transition:.3s;
 }
 
 .button:hover{
-transform:scale(1.05);
+background:white;
 }
 
 section{
-padding:70px 20px;
-max-width:1000px;
+padding:80px 20px;
+max-width:1200px;
 margin:auto;
+}
+
+.title{
+font-size:42px;
+text-align:center;
+margin-bottom:50px;
 }
 
 .cards{
 display:grid;
-grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
-gap:20px;
+grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+gap:25px;
 }
 
 .card{
-background:#161b22;
-padding:25px;
-border-radius:15px;
+background:#151d2e;
+padding:30px;
+border-radius:18px;
+transition:.3s;
+}
+
+.card:hover{
+transform:translateY(-8px);
+box-shadow:0 0 25px #00d9ff55;
+}
+
+.card h3{
+margin-bottom:15px;
+}
+
+.join{
+text-align:center;
+}
+
+.join a{
+display:inline-block;
+margin-top:30px;
+padding:16px 40px;
+background:#00d9ff;
+color:black;
+text-decoration:none;
+border-radius:10px;
+font-weight:bold;
 }
 
 footer{
 padding:40px;
-background:#05070a;
+text-align:center;
+background:#05070c;
+color:#888;
+margin-top:60px;
 }
 </style>
 
@@ -77,65 +122,81 @@ background:#05070a;
 
 <h1>Creative Guild</h1>
 
-<p>Международное сообщество креаторов</p>
+<p>
+Сообщество AI-креаторов, где авторы объединяются,
+делятся опытом, создают проекты, помогают друг другу
+и развиваются вместе.
+</p>
 
-<a class="button" href="#">Присоединиться</a>
+<a class="button" href="https://t.me/Komnim1">
+Вступить
+</a>
 
 </header>
 
 <section>
 
-<h2>О нас</h2>
-
-<p>
-Мы объединяем AI-креаторов, монтажёров,
-дикторов, дизайнеров, сценаристов
-и авторов YouTube/TikTok.
-</p>
-
-</section>
-
-<section>
-
-<h2>Что получает участник</h2>
+<h2 class="title">
+Что мы делаем
+</h2>
 
 <div class="cards">
 
 <div class="card">
-<h3>🤝 Команда</h3>
-<p>Находите людей для совместных проектов.</p>
+<h3>🎬 AI Анимация</h3>
+<p>Создание кинематографических AI-видео.</p>
 </div>
 
 <div class="card">
-<h3>💰 Заказы</h3>
-<p>Получайте предложения от клиентов.</p>
+<h3>🎙 Озвучка</h3>
+<p>Профессиональные AI и живые голоса.</p>
 </div>
 
 <div class="card">
-<h3>📚 Обучение</h3>
-<p>Делитесь опытом и изучайте новые инструменты.</p>
+<h3>✂ Монтаж</h3>
+<p>Эффекты, субтитры и оформление.</p>
 </div>
 
 <div class="card">
-<h3>🚀 Рост</h3>
-<p>Развивайтесь вместе с сообществом.</p>
+<h3>🚀 Продвижение</h3>
+<p>Помощь в развитии YouTube, TikTok и Shorts.</p>
+</div>
+
+<div class="card">
+<h3>🤝 Совместные проекты</h3>
+<p>Создание роликов и работа в команде.</p>
+</div>
+
+<div class="card">
+<h3>💰 Поиск заказов</h3>
+<p>Реклама, коммерческие проекты и сотрудничество.</p>
 </div>
 
 </div>
 
 </section>
 
-<section>
+<section class="join">
 
-<h2>Контакты</h2>
+<h2 class="title">
+Присоединяйся
+</h2>
 
-<p>Telegram: @yourtelegram</p>
+<p>
+Если ты создаёшь AI-контент,
+любишь монтаж, озвучку или анимацию —
+добро пожаловать в Creative Guild.
+</p>
+
+<a href="https://t.me/Komnim1">
+Telegram
+</a>
 
 </section>
 
 <footer>
 
-Creative Guild © 2026
+© 2026 Creative Guild
 
 </footer>
 
