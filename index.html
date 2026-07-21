@@ -3,10 +3,11 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Creative Guild</title>
-<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9988669158718056"
-     crossorigin="anonymous"></script>
+
+<title>Creative Guild | Гильдия Искателей Приключений</title>
+
 <style>
+
 *{
 margin:0;
 padding:0;
@@ -14,186 +15,418 @@ box-sizing:border-box;
 font-family:Arial,sans-serif;
 }
 
+html{
+scroll-behavior:smooth;
+}
+
 body{
-background:#0b0f17;
+
+background:
+linear-gradient(rgba(8,8,12,.75),rgba(8,8,12,.75)),
+url("guild.jpg");
+
+background-size:cover;
+background-position:center;
+background-attachment:fixed;
+
 color:white;
+
 }
 
-header{
-height:100vh;
+nav{
+
+position:fixed;
+top:0;
+left:0;
+width:100%;
+
 display:flex;
-justify-content:center;
+justify-content:space-between;
 align-items:center;
-flex-direction:column;
-text-align:center;
-padding:20px;
-background:linear-gradient(135deg,#0b0f17,#151d2e);
+
+padding:18px 60px;
+
+background:rgba(10,10,15,.45);
+
+backdrop-filter:blur(12px);
+
+border-bottom:1px solid rgba(255,255,255,.08);
+
+z-index:1000;
+
 }
 
-h1{
-font-size:58px;
-margin-bottom:20px;
-}
+.logo{
 
-p{
-font-size:20px;
-color:#cfcfcf;
-max-width:700px;
-line-height:1.6;
-}
-
-.button{
-margin-top:40px;
-padding:16px 42px;
-background:#00d9ff;
-color:#000;
+font-size:32px;
 font-weight:bold;
-text-decoration:none;
-border-radius:12px;
-transition:.3s;
+
+color:#ffd369;
+
 }
 
-.button:hover{
-background:white;
+.logo span{
+
+color:white;
+
+}
+
+nav ul{
+
+display:flex;
+list-style:none;
+gap:35px;
+
+}
+
+nav a{
+
+text-decoration:none;
+
+color:white;
+
+font-size:18px;
+
+transition:.3s;
+
+}
+
+nav a:hover{
+
+color:#ffd369;
+
+}
+
+.hero{
+
+height:100vh;
+
+display:flex;
+
+justify-content:center;
+
+align-items:center;
+
+text-align:center;
+
+padding:20px;
+
+}
+
+.hero-box{
+
+background:rgba(0,0,0,.45);
+
+padding:60px;
+
+border-radius:25px;
+
+backdrop-filter:blur(10px);
+
+max-width:900px;
+
+}
+
+.hero h1{
+
+font-size:72px;
+
+margin-bottom:25px;
+
+color:#ffd369;
+
+}
+
+.hero p{
+
+font-size:24px;
+
+line-height:1.8;
+
+color:#ddd;
+
+margin-bottom:40px;
+
+}
+
+.buttons{
+
+display:flex;
+
+justify-content:center;
+
+gap:20px;
+
+flex-wrap:wrap;
+
+}
+
+.btn{
+
+padding:18px 42px;
+
+border-radius:15px;
+
+text-decoration:none;
+
+font-size:20px;
+
+font-weight:bold;
+
+transition:.3s;
+
+}
+
+.gold{
+
+background:#d6a53d;
+
+color:black;
+
+}
+
+.dark{
+
+background:#20242f;
+
+color:white;
+
+}
+
+.btn:hover{
+
+transform:translateY(-5px);
+
+box-shadow:0 0 30px rgba(255,211,105,.45);
+
 }
 
 section{
-padding:80px 20px;
-max-width:1200px;
-margin:auto;
+
+padding:100px 10%;
+
 }
 
 .title{
-font-size:42px;
+
+font-size:46px;
+
 text-align:center;
-margin-bottom:50px;
+
+margin-bottom:70px;
+
+color:#ffd369;
+
 }
 
 .cards{
+
 display:grid;
-grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
-gap:25px;
+
+grid-template-columns:repeat(auto-fit,minmax(270px,1fr));
+
+gap:30px;
+
 }
 
 .card{
-background:#151d2e;
-padding:30px;
-border-radius:18px;
-transition:.3s;
+
+background:rgba(20,20,28,.7);
+
+backdrop-filter:blur(8px);
+
+border-radius:20px;
+
+padding:35px;
+
+transition:.35s;
+
 }
 
 .card:hover{
-transform:translateY(-8px);
-box-shadow:0 0 25px #00d9ff55;
+
+transform:translateY(-10px);
+
+box-shadow:0 0 25px rgba(255,211,105,.3);
+
 }
 
 .card h3{
-margin-bottom:15px;
+
+margin-bottom:18px;
+
+font-size:26px;
+
+color:#ffd369;
+
 }
 
-.join{
-text-align:center;
-}
+.card p{
 
-.join a{
-display:inline-block;
-margin-top:30px;
-padding:16px 40px;
-background:#00d9ff;
-color:black;
-text-decoration:none;
-border-radius:10px;
-font-weight:bold;
+line-height:1.8;
+
+color:#ccc;
+
 }
 
 footer{
-padding:40px;
+
+padding:45px;
+
 text-align:center;
-background:#05070c;
+
+background:#090909;
+
 color:#888;
-margin-top:60px;
+
 }
+
+@media(max-width:900px){
+
+.hero h1{
+
+font-size:48px;
+
+}
+
+.hero p{
+
+font-size:20px;
+
+}
+
+nav{
+
+padding:15px 25px;
+
+}
+
+nav ul{
+
+gap:15px;
+
+font-size:15px;
+
+}
+
+}
+
 </style>
 
 </head>
-
 <body>
 
-<header>
+<nav>
 
-<h1>Creative Guild</h1>
+<div class="logo">⚔ <span>Creative Guild</span></div>
+
+<ul>
+<li><a href="#about">О нас</a></li>
+<li><a href="#services">Услуги</a></li>
+<li><a href="events.html">Выступления</a></li>
+<li><a href="register.html">Вступить</a></li>
+</ul>
+
+</nav>
+
+<header class="hero">
+
+<div class="hero-box">
+
+<h1>Гильдия Искателей Приключений</h1>
 
 <p>
-Сообщество AI-креаторов, где авторы объединяются,
-делятся опытом, создают проекты, помогают друг другу
-и развиваются вместе.
+
+Добро пожаловать в Creative Guild —
+место, где талантливые AI-креаторы,
+монтажёры, художники, сценаристы и
+озвучщики объединяются, словно
+авантюристы в легендарной гильдии.
+
 </p>
 
-<a class="button" href="https://t.me/Komnim1">
-Вступить
+<div class="buttons">
+
+<a class="btn gold" href="register.html">
+⚔ Вступить в гильдию
 </a>
-<a class="button" href="events.html">
+
+<a class="btn dark" href="events.html">
 🎤 Выступления
 </a>
+
+</div>
+
+</div>
+
 </header>
 
-<section>
+<section id="about">
 
 <h2 class="title">
-Что мы делаем
+🏰 Наша Гильдия
 </h2>
 
 <div class="cards">
 
 <div class="card">
-<h3>🎬 AI Анимация</h3>
-<p>Создание кинематографических AI-видео.</p>
-</div>
 
-<div class="card">
-<h3>🎙 Озвучка</h3>
-<p>Профессиональные AI и живые голоса.</p>
-</div>
-
-<div class="card">
-<h3>✂ Монтаж</h3>
-<p>Эффекты, субтитры и оформление.</p>
-</div>
-
-<div class="card">
-<h3>🚀 Продвижение</h3>
-<p>Помощь в развитии YouTube, TikTok и Shorts.</p>
-</div>
-
-<div class="card">
-<h3>🤝 Совместные проекты</h3>
-<p>Создание роликов и работа в команде.</p>
-</div>
-
-<div class="card">
-<h3>💰 Поиск заказов</h3>
-<p>Реклама, коммерческие проекты и сотрудничество.</p>
-</div>
-
-</div>
-
-</section>
-
-<section class="join">
-
-<h2 class="title">
-Присоединяйся
-</h2>
+<h3>🎬 AI Видео</h3>
 
 <p>
-Если ты создаёшь AI-контент,
-любишь монтаж, озвучку или анимацию —
-добро пожаловать в Creative Guild.
+
+Создание кинематографических
+AI-видео, трейлеров,
+анимации и рекламных роликов.
+
 </p>
 
-<a href="https://t.me/Komnim1">
-Telegram
-</a>
+</div>
+
+<div class="card">
+
+<h3>🎙 Озвучка</h3>
+
+<p>
+
+Профессиональная AI
+и живая озвучка
+для любых проектов.
+
+</p>
+
+</div>
+
+<div class="card">
+
+<h3>⚔ Совместные проекты</h3>
+
+<p>
+
+Находите команду,
+создавайте игры,
+аниме, фильмы
+и большие проекты.
+
+</p>
+
+</div>
+
+<div class="card">
+
+<h3>💰 Заказы</h3>
+
+<p>
+
+Мы объединяем исполнителей
+и клиентов
+в одном месте.
+
+</p>
+
+</div>
+
+</div>
 
 </section>
 
@@ -204,4 +437,6 @@ Telegram
 </footer>
 
 </body>
+
 </html>
+
