@@ -4,11 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Creative Guild | Приют Искателей</title>
-    <!-- Подключаем красивые шрифты -->
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
     
     <style>
-        /* Базовые переменные в стиле темного фэнтези */
         :root {
             --gold: #FFD700;
             --gold-dim: #b8991a;
@@ -32,8 +30,6 @@
             font-family: 'Inter', sans-serif;
             color: var(--text-main);
             background-color: var(--dark-bg);
-            
-            /* ФОН */
             background-image: url('1000002050.png');
             background-size: cover;
             background-position: center;
@@ -52,16 +48,9 @@
             z-index: -1;
         }
 
-        .cinzel-font {
-            font-family: 'Cinzel', serif;
-        }
+        .cinzel-font { font-family: 'Cinzel', serif; }
+        .gold-text { color: var(--gold); text-shadow: 0 0 10px rgba(255, 215, 0, 0.3); }
 
-        .gold-text {
-            color: var(--gold);
-            text-shadow: 0 0 10px rgba(255, 215, 0, 0.3);
-        }
-
-        /* Глассморфизм */
         .glass-panel {
             background: var(--glass-bg);
             backdrop-filter: blur(8px);
@@ -71,7 +60,6 @@
             box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.7);
         }
 
-        /* Навигация */
         .guild-nav {
             position: fixed;
             width: 100%;
@@ -91,35 +79,12 @@
             flex-wrap: wrap;
         }
 
-        .logo {
-            font-size: 1.5rem;
-            font-weight: 700;
-            font-family: 'Cinzel', serif;
-            text-decoration: none;
-        }
+        .logo { font-size: 1.5rem; font-weight: 700; font-family: 'Cinzel', serif; text-decoration: none; }
+        
+        .menu { list-style: none; display: flex; gap: 15px; }
+        .menu a { color: var(--text-main); text-decoration: none; font-weight: 500; text-transform: uppercase; font-size: 0.85rem; letter-spacing: 1px; transition: 0.3s; }
+        .menu a:hover { color: var(--gold); text-shadow: 0 0 8px var(--gold); }
 
-        .menu {
-            list-style: none;
-            display: flex;
-            gap: 20px;
-        }
-
-        .menu a {
-            color: var(--text-main);
-            text-decoration: none;
-            font-weight: 500;
-            text-transform: uppercase;
-            font-size: 0.9rem;
-            letter-spacing: 1px;
-            transition: 0.3s;
-        }
-
-        .menu a:hover {
-            color: var(--gold);
-            text-shadow: 0 0 8px var(--gold);
-        }
-
-        /* Кнопки */
         .btn-rpg {
             background: linear-gradient(180deg, rgba(40,40,40,0.8) 0%, rgba(20,20,20,0.9) 100%);
             border: 1px solid var(--gold-dim);
@@ -134,6 +99,9 @@
             text-transform: uppercase;
             letter-spacing: 1px;
             box-shadow: inset 0 0 10px rgba(255,215,0,0.1);
+            text-decoration: none;
+            display: inline-block;
+            text-align: center;
         }
 
         .btn-rpg:hover {
@@ -152,204 +120,79 @@
             padding: 120px 20px 50px;
         }
 
-        .hero-content {
-            text-align: center;
-            padding: 40px 30px;
-            max-width: 800px;
-            width: 100%;
-            position: relative;
-        }
-
+        .hero-content { text-align: center; padding: 40px 30px; max-width: 800px; width: 100%; position: relative; }
         .glow-border::before {
-            content: '';
-            position: absolute;
-            top: -1px; left: -1px; right: -1px; bottom: -1px;
-            border-radius: 12px;
-            background: linear-gradient(45deg, transparent, var(--gold-dim), transparent);
-            z-index: -1;
-            opacity: 0.6;
+            content: ''; position: absolute; top: -1px; left: -1px; right: -1px; bottom: -1px;
+            border-radius: 12px; background: linear-gradient(45deg, transparent, var(--gold-dim), transparent);
+            z-index: -1; opacity: 0.6;
         }
 
-        .hero-content h1 {
-            font-size: clamp(2rem, 5vw, 3.5rem);
-            margin-bottom: 20px;
-            letter-spacing: 2px;
-            line-height: 1.2;
-        }
+        .hero-content h1 { font-size: clamp(2rem, 5vw, 3.5rem); margin-bottom: 20px; letter-spacing: 2px; line-height: 1.2; }
+        .hero-content p { font-size: 1.1rem; line-height: 1.6; color: #e2e8f0; margin-bottom: 30px; font-weight: 300; }
+        .hero-stats { display: flex; justify-content: center; flex-wrap: wrap; gap: 20px 40px; margin-top: 30px; border-top: 1px solid rgba(255,215,0,0.2); padding-top: 20px; }
+        .stat span { display: block; font-family: 'Cinzel', serif; color: var(--gold); font-size: 1.5rem; font-weight: bold; }
+        .section-title { text-align: center; font-size: 2.5rem; margin-bottom: 50px; }
 
-        .hero-content p {
-            font-size: 1.1rem;
-            line-height: 1.6;
-            color: #e2e8f0;
-            margin-bottom: 30px;
-            font-weight: 300;
-        }
-
-        .hero-stats {
-            display: flex;
-            justify-content: center;
-            flex-wrap: wrap;
-            gap: 20px 40px;
-            margin-top: 30px;
-            border-top: 1px solid rgba(255,215,0,0.2);
-            padding-top: 20px;
-        }
-
-        .stat span {
-            display: block;
-            font-family: 'Cinzel', serif;
-            color: var(--gold);
-            font-size: 1.5rem;
-            font-weight: bold;
-        }
-
-        /* Доска заданий */
-        .quests-section {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 80px 20px;
-        }
-
-        .section-title {
+        /* ДОСКА ЗАДАНИЙ И ОБЪЯВЛЕНИЙ */
+        .quests-section { max-width: 1200px; margin: 0 auto; padding: 80px 20px; }
+        
+        .telegram-banner {
             text-align: center;
-            font-size: 2.5rem;
+            padding: 40px 20px;
             margin-bottom: 50px;
+            background: linear-gradient(135deg, rgba(20,30,50,0.7) 0%, rgba(10,15,25,0.8) 100%);
         }
+        
+        .telegram-banner h3 { font-size: 1.8rem; margin-bottom: 15px; }
+        .telegram-banner p { margin-bottom: 25px; color: #cbd5e1; font-size: 1.1rem; }
 
-        .quest-board {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 30px;
-        }
-
-        .quest-card {
-            padding: 25px;
-            transition: transform 0.3s;
-            position: relative;
-            overflow: hidden;
-            display: flex;
-            flex-direction: column;
-        }
-
-        .quest-card:hover {
-            transform: translateY(-5px);
-            border-color: rgba(255, 215, 0, 0.6);
-            box-shadow: 0 10px 40px 0 rgba(0, 0, 0, 0.8), 0 0 15px rgba(255,215,0,0.2);
-        }
-
-        .quest-rank {
-            position: absolute;
-            top: 0;
-            right: 0;
-            padding: 5px 12px;
-            font-family: 'Cinzel', serif;
-            font-size: 0.75rem;
-            font-weight: bold;
-            border-bottom-left-radius: 8px;
-        }
-
+        .quest-board { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; }
+        .quest-card { padding: 25px; transition: transform 0.3s; position: relative; overflow: hidden; display: flex; flex-direction: column; }
+        .quest-card:hover { transform: translateY(-5px); border-color: rgba(255, 215, 0, 0.6); box-shadow: 0 10px 40px 0 rgba(0, 0, 0, 0.8), 0 0 15px rgba(255,215,0,0.2); }
+        .quest-rank { position: absolute; top: 0; right: 0; padding: 5px 12px; font-family: 'Cinzel', serif; font-size: 0.75rem; font-weight: bold; border-bottom-left-radius: 8px; }
+        
         .rank-seeker { background: rgba(52, 152, 219, 0.2); color: #3498db; border: 1px solid #3498db; border-top: none; border-right: none;}
         .rank-master { background: rgba(155, 89, 182, 0.2); color: #9b59b6; border: 1px solid #9b59b6; border-top: none; border-right: none;}
         .rank-legend { background: rgba(255, 215, 0, 0.2); color: var(--gold); border: 1px solid var(--gold); border-top: none; border-right: none;}
 
-        .quest-card h3 {
-            font-family: 'Cinzel', serif;
-            font-size: 1.3rem;
-            margin-bottom: 12px;
-            margin-top: 15px;
-            color: white;
-        }
+        .quest-card h3 { font-family: 'Cinzel', serif; font-size: 1.3rem; margin-bottom: 12px; margin-top: 15px; color: white; }
+        .quest-card p { color: #cbd5e1; margin-bottom: 20px; font-size: 0.95rem; flex-grow: 1; }
+        .quest-reward { color: var(--gold); font-weight: bold; margin-bottom: 20px; font-family: 'Cinzel', serif; font-size: 1.1rem; text-align: center; }
 
-        .quest-card p {
-            color: #cbd5e1;
-            margin-bottom: 20px;
-            font-size: 0.95rem;
-            flex-grow: 1;
-        }
+        /* ТАВЕРНА (ЧАТ) */
+        .tavern-section { max-width: 800px; margin: 0 auto; padding: 80px 20px; }
+        .tavern-content { text-align: center; padding: 50px 30px; }
+        .tavern-content h3 { font-size: 1.8rem; margin-bottom: 15px; color: white; }
+        .tavern-content p { margin-bottom: 30px; color: #cbd5e1; font-size: 1.1rem; line-height: 1.6; }
+        .tavern-icon { font-size: 4rem; margin-bottom: 15px; text-shadow: 0 0 20px rgba(255,215,0,0.4); }
 
-        .quest-reward {
-            color: var(--gold);
-            font-weight: bold;
-            margin-bottom: 20px;
-            font-family: 'Cinzel', serif;
-            font-size: 1.1rem;
-            text-align: center;
-        }
+        /* ЗАЛ ГЕРОЕВ */
+        .heroes-section { max-width: 1200px; margin: 0 auto; padding: 80px 20px; }
+        .heroes-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 40px; }
+        .hero-card { display: flex; flex-direction: column; align-items: center; padding: 35px 25px; text-align: center; transition: transform 0.3s; }
+        .hero-card:hover { transform: translateY(-5px); border-color: rgba(255, 215, 0, 0.6); box-shadow: 0 10px 40px 0 rgba(0, 0, 0, 0.8), 0 0 15px rgba(255,215,0,0.2); }
+        .hero-avatar { width: 120px; height: 120px; border-radius: 50%; border: 3px solid var(--gold-dim); padding: 4px; margin-bottom: 20px; box-shadow: 0 0 20px rgba(255, 215, 0, 0.2); background: rgba(0,0,0,0.5); }
+        .hero-avatar img { width: 100%; height: 100%; object-fit: cover; border-radius: 50%; }
+        
+        .hero-info h3 { font-size: 1.5rem; margin-bottom: 10px; }
+        .hero-badge { display: inline-block; padding: 4px 15px; border-radius: 20px; font-size: 0.8rem; font-weight: bold; font-family: 'Cinzel', serif; margin-bottom: 15px; }
+        .hero-role { color: #cbd5e1; font-size: 0.95rem; margin-bottom: 20px; font-style: italic; }
+        .hero-stats-mini { display: flex; justify-content: center; gap: 20px; font-size: 0.85rem; color: #94a3b8; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 15px; width: 100%; }
 
-        /* Контакты */
-        .contacts-section {
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 80px 20px 100px;
-            text-align: center;
-        }
+        /* КОНТАКТЫ */
+        .contacts-section { max-width: 800px; margin: 0 auto; padding: 80px 20px 100px; text-align: center; }
+        .contacts-card { padding: 40px 30px; display: flex; flex-direction: column; gap: 20px; }
+        .contact-links { display: flex; flex-direction: column; gap: 15px; margin-top: 20px; }
+        .contact-item { color: var(--text-main); text-decoration: none; font-size: 1.1rem; background: rgba(0,0,0,0.5); padding: 15px; border-radius: 8px; border: 1px solid rgba(255,215,0,0.1); transition: 0.3s; display: flex; justify-content: center; align-items: center; gap: 10px; }
+        .contact-item:hover { border-color: var(--gold); box-shadow: 0 0 15px rgba(255,215,0,0.2); transform: translateY(-2px); color: white; }
 
-        .contacts-card {
-            padding: 40px 30px;
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
-        }
+        footer { background: rgba(5, 5, 10, 0.8); border-top: 1px solid rgba(255, 215, 0, 0.2); text-align: center; padding: 25px 20px; font-family: 'Cinzel', serif; color: #94a3b8; font-size: 0.9rem; }
 
-        .contact-links {
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-            margin-top: 20px;
-        }
-
-        .contact-item {
-            color: var(--text-main);
-            text-decoration: none;
-            font-size: 1.1rem;
-            background: rgba(0,0,0,0.5);
-            padding: 15px;
-            border-radius: 8px;
-            border: 1px solid rgba(255,215,0,0.1);
-            transition: 0.3s;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .contact-item:hover {
-            border-color: var(--gold);
-            box-shadow: 0 0 15px rgba(255,215,0,0.2);
-            transform: translateY(-2px);
-            color: white;
-        }
-
-        /* Подвал (Футер) */
-        footer {
-            background: rgba(5, 5, 10, 0.8);
-            border-top: 1px solid rgba(255, 215, 0, 0.2);
-            text-align: center;
-            padding: 25px 20px;
-            font-family: 'Cinzel', serif;
-            color: #94a3b8;
-            font-size: 0.9rem;
-        }
-
-        /* Адаптация под мобильные устройства */
         @media (max-width: 768px) {
-            .nav-container {
-                flex-direction: column;
-                gap: 15px;
-                padding: 15px;
-            }
-            .menu {
-                flex-wrap: wrap;
-                justify-content: center;
-            }
-            .hero-section {
-                padding-top: 160px;
-            }
-            .contact-item {
-                font-size: 1rem;
-                flex-direction: column;
-                gap: 5px;
-            }
+            .nav-container { flex-direction: column; gap: 15px; padding: 15px; }
+            .menu { flex-wrap: wrap; justify-content: center; gap: 10px; }
+            .hero-section { padding-top: 160px; }
+            .contact-item { font-size: 1rem; flex-direction: column; gap: 5px; }
         }
     </style>
 </head>
@@ -363,12 +206,12 @@
             <nav>
                 <ul class="menu">
                     <li><a href="#hall">Зал</a></li>
-                    <li><a href="#quests">Контракты</a></li>
+                    <li><a href="#quests">Объявления</a></li>
+                    <li><a href="#tavern">Таверна (Чат)</a></li>
                     <li><a href="#heroes">Герои</a></li>
-                    <li><a href="#contacts">Связь</a></li>
                 </ul>
             </nav>
-            <button class="btn-rpg">Вступить</button>
+            <a href="#contacts" class="btn-rpg">Связь</a>
         </div>
     </header>
 
@@ -383,61 +226,107 @@
         </div>
     </section>
 
+    <!-- ДОСКА ОБЪЯВЛЕНИЙ -->
     <section id="quests" class="quests-section">
-        <h2 class="cinzel-font gold-text section-title">Свежие Контракты</h2>
+        <h2 class="cinzel-font gold-text section-title">Доска Объявлений</h2>
+        
+        <!-- Ссылка на Телеграм Канал с объявлениями -->
+        <div class="glass-panel glow-border telegram-banner">
+            <h3 class="cinzel-font gold-text">📜 Живые Вести Гильдии</h3>
+            <p>Все самые свежие заказы, важные объявления и события публикуются на нашей официальной доске в Telegram.</p>
+            <a href="https://t.me/+IuoJVnJJKzllZmMy" target="_blank" class="btn-rpg" style="padding: 15px 35px; font-size: 1.1rem;">Читать Объявления</a>
+        </div>
+
+        <p style="text-align: center; color: #94a3b8; margin-bottom: 40px; font-size: 1.1rem;">Архив и примеры успешных контрактов:</p>
         <div class="quest-board">
-            
             <div class="quest-card glass-panel">
                 <div class="quest-rank rank-seeker">Искатель</div>
                 <h3>Анимация для заклинаний</h3>
-                <p>Требуется motion-дизайнер для создания 5 эффектов магии для инди-игры (Огонь, Лед, Молния). Сроки: 2 недели.</p>
+                <p>Требуется motion-дизайнер для создания 5 эффектов магии для инди-игры (Огонь, Лед, Молния).</p>
                 <div class="quest-reward">Награда: 500 Золотых</div>
-                <button class="btn-rpg" style="width: 100%;">Взять задание</button>
             </div>
 
             <div class="quest-card glass-panel">
                 <div class="quest-rank rank-master">Мастер</div>
                 <h3>Написание Lore-библии</h3>
-                <p>Ищем опытного сценариста для проработки лора темного фэнтези мира. Нужно расписать 3 враждующие фракции и их историю.</p>
+                <p>Сценарист для проработки лора темного фэнтези мира. Нужно расписать 3 враждующие фракции.</p>
                 <div class="quest-reward">Награда: 1200 Золотых</div>
-                <button class="btn-rpg" style="width: 100%;">Взять задание</button>
             </div>
 
             <div class="quest-card glass-panel">
                 <div class="quest-rank rank-legend">Легенда</div>
                 <h3>AI Арт-Дирекшен</h3>
-                <p>Требуется сгенерировать и доработать 50 концепт-артов персонажей в едином стиле для настольной карточной игры.</p>
+                <p>Сгенерировать и доработать 50 концепт-артов персонажей в едином стиле для карточной игры.</p>
                 <div class="quest-reward">Награда: 3000 Золотых</div>
-                <button class="btn-rpg" style="width: 100%;">Взять задание</button>
             </div>
-
         </div>
     </section>
 
-    <!-- НОВЫЙ РАЗДЕЛ: КОНТАКТЫ -->
+    <!-- ТАВЕРНА (ЧАТ ГИЛЬДИИ) -->
+    <section id="tavern" class="tavern-section">
+        <h2 class="cinzel-font gold-text section-title">Шумная Таверна</h2>
+        <div class="tavern-content glass-panel glow-border">
+            <div class="tavern-icon">🍻</div>
+            <h3 class="cinzel-font">Место встреч Искателей</h3>
+            <p>Заходи, путник, присаживайся у огня! Здесь мы делимся опытом, ищем напарников для проектов, обсуждаем нейросети и просто общаемся за кружкой виртуального эля.</p>
+            <a href="https://t.me/+xK5wewmea3QxZDgy" target="_blank" class="btn-rpg" style="padding: 15px 40px; font-size: 1.1rem;">Войти в Чат Гильдии</a>
+        </div>
+    </section>
+
+    <!-- ЗАЛ ГЕРОЕВ -->
+    <section id="heroes" class="heroes-section">
+        <h2 class="cinzel-font gold-text section-title">Зал Героев</h2>
+        <p style="text-align: center; color: #94a3b8; margin-bottom: 50px; font-size: 1.1rem;">Имена Мастеров, чей вклад навсегда вписан в историю Гильдии.</p>
+        
+        <div class="heroes-grid">
+            <div class="hero-card glass-panel">
+                <div class="hero-avatar"><img src="https://images.unsplash.com/photo-1542909168-82c3e7fdca5c?q=80&w=200&auto=format&fit=crop" alt="Аватар Мастера"></div>
+                <div class="hero-info">
+                    <h3 class="cinzel-font gold-text">Мастер Komnim</h3>
+                    <div class="hero-badge rank-legend">Основатель</div>
+                    <p class="hero-role">Архитектор Идей Гильдии</p>
+                    <div class="hero-stats-mini"><span>Уровень: 99</span><span>Квестов: 450</span></div>
+                </div>
+            </div>
+
+            <div class="hero-card glass-panel">
+                <div class="hero-avatar"><img src="https://images.unsplash.com/photo-1618641986557-1ecd230959aa?q=80&w=200&auto=format&fit=crop" alt="Аватар Героя"></div>
+                <div class="hero-info">
+                    <h3 class="cinzel-font">Элиара Теневая</h3>
+                    <div class="hero-badge rank-master">Мастер</div>
+                    <p class="hero-role">AI-Художник / Аниматор</p>
+                    <div class="hero-stats-mini"><span>Уровень: 74</span><span>Квестов: 89</span></div>
+                </div>
+            </div>
+
+            <div class="hero-card glass-panel">
+                <div class="hero-avatar"><img src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?q=80&w=200&auto=format&fit=crop" alt="Аватар Героя"></div>
+                <div class="hero-info">
+                    <h3 class="cinzel-font">Мастер Baltaa</h3>
+                    <div class="hero-badge rank-legend">Хранитель</div>
+                    <p class="hero-role">Кузнец Кода и ЛОРа</p>
+                    <div class="hero-stats-mini"><span>Уровень: 95</span><span>Квестов: 312</span></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- КОНТАКТЫ -->
     <section id="contacts" class="contacts-section">
         <h2 class="cinzel-font gold-text section-title">Связь с Мастерами</h2>
         <div class="contacts-card glass-panel glow-border">
             <p style="margin-bottom: 10px;">Готовы обсудить крупный контракт или есть вопросы по вступлению в Гильдию? Отправьте весточку нашим Мастерам:</p>
             <div class="contact-links">
-                <a href="mailto:creativeguildai@gmail.com" class="contact-item">
-                    <span class="cinzel-font gold-text">Почта:</span> creativeguildai@gmail.com
-                </a>
-                <a href="https://t.me/Komnim1" target="_blank" class="contact-item">
-                    <span class="cinzel-font gold-text">Telegram (Мастер 1):</span> @Komnim1
-                </a>
-                <a href="https://t.me/baltaa" target="_blank" class="contact-item">
-                    <span class="cinzel-font gold-text">Telegram (Мастер 2):</span> @baltaa
-                </a>
+                <a href="mailto:creativeguildai@gmail.com" class="contact-item"><span class="cinzel-font gold-text">Почта:</span> creativeguildai@gmail.com</a>
+                <a href="https://t.me/Komnim1" target="_blank" class="contact-item"><span class="cinzel-font gold-text">Telegram:</span> @Komnim1</a>
+                <a href="https://t.me/baltaa" target="_blank" class="contact-item"><span class="cinzel-font gold-text">Telegram:</span> @baltaa</a>
             </div>
         </div>
     </section>
 
-    <!-- ПОДВАЛ САЙТА -->
     <footer>
         <p>&copy; 2026 Creative Guild. Все права защищены. <br> Гильдия создана Искателями для Искателей.</p>
     </footer>
 
 </body>
 </html>
-
