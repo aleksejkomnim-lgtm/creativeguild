@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+⁹<!DOCTYPE html>
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
@@ -329,6 +329,66 @@
     <footer>
         <p>&copy; 2026 Creative Guild. Все права защищены. <br> Гильдия создана Искателями для Искателей.</p>
     </footer>
+    <!-- === МАГИЯ FIREBASE (АВТОРИЗАЦИЯ) === -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+        import { getAuth, signInWithPopup, GoogleAuthProvider, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+
+        // 👇 ВСТАВЬТЕ ВАШ СКОПИРОВАННЫЙ КОД FIREBASE РОВНО ПОД ЭТОЙ СТРОКОЙ 👇
+        
+// https://firebase.google.com/docs/web/setup#available-libraries
+
+// Your web app's Firebase configuration
+// For Firebase JS SDK v7.20.0 and later, measurementId is optional
+const firebaseConfig = {
+  apiKey: "AIzaSyAlOKBtz3LC4NNINA34-5ujwVmDPSjc2K8",
+  authDomain: "creativeguild.firebaseapp.com",
+  projectId: "creativeguild",
+  storageBucket: "creativeguild.firebasestorage.app",
+  messagingSenderId: "813913714015",
+  appId: "1:813913714015:web:455a4675b5f0e758e59aea",
+  measurementId: "G-C94DM0T0KV"
+};
+
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
+
+
+        // 👆 ВСТАВЬТЕ ВАШ СКОПИРОВАННЫЙ КОД FIREBASE РОВНО НАД ЭТОЙ СТРОКОЙ 👆
+
+        const auth = getAuth(app);
+        const provider = new GoogleAuthProvider();
+        const loginBtns = document.querySelectorAll('.join-btn');
+
+        loginBtns.forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                e.preventDefault();
+                signInWithPopup(auth, provider)
+                    .then((result) => {
+                        alert(`Добро пожаловать в Гильдию, ${result.user.displayName}!`);
+                    }).catch((error) => {
+                        console.error(error);
+                        alert("Ошибка! Проверьте, включен ли Google в Authentication.");
+                    });
+            });
+        });
+
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                loginBtns.forEach(btn => {
+                    btn.textContent = `⚔ Профиль (${user.displayName})`;
+                    btn.onclick = (e) => {
+                        e.preventDefault();
+                        alert('Скоро здесь откроется окно вашего профиля!');
+                    };
+                });
+            } else {
+                loginBtns.forEach(btn => {
+                    btn.textContent = 'Вступить';
+                });
+            }
+        });
+    </script>
 
 </body>
 </html>
