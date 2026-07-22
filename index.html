@@ -384,6 +384,49 @@
 
         </div>
     </section>
+    <!-- === РАСШИРЕННЫЙ ПРОФИЛЬ ИСКАТЕЛЯ С ДОСКОЙ ЗАДАНИЙ === -->
+    <div id="profile-modal" class="modal-overlay">
+        <div class="modal-content glass-panel glow-border" style="text-align: left; max-width: 600px;">
+            <button class="close-btn" onclick="closeProfile()">✖ Закрыть</button>
+            <h2 class="cinzel-font gold-text" style="text-align: center; margin-bottom: 20px;">Штаб Искателя</h2>
+            
+            <!-- Основная статистика -->
+            <div id="profile-info" style="color: #e2e8f0; font-size: 0.95rem; margin-bottom: 20px;">
+                <!-- Данные подставятся автоматически -->
+            </div>
+
+            <!-- Личные сообщения -->
+            <div style="margin-bottom: 20px; border-top: 1px solid rgba(255,215,0,0.2); padding-top: 15px;">
+                <h3 class="cinzel-font gold-text" style="font-size: 1.1rem; margin-bottom: 10px;">📜 Личные сообщения</h3>
+                <div style="background: rgba(0,0,0,0.3); padding: 10px; border-radius: 4px; height: 90px; overflow-y: auto; color: #94a3b8; font-size: 0.85rem;" id="profile-messages">
+                    <p><em>Заказчик #404: «Приветствую! Нужен концепт для нового подземелья...»</em></p>
+                </div>
+            </div>
+
+            <!-- Персональная доска заданий с сортировкой -->
+            <div style="border-top: 1px solid rgba(255,215,0,0.2); padding-top: 15px;">
+                <h3 class="cinzel-font gold-text" style="font-size: 1.1rem; margin-bottom: 10px;">📌 Моя доска заданий</h3>
+                
+                <!-- Кнопки сортировки квестов -->
+                <div style="display: flex; gap: 8px; margin-bottom: 12px; flex-wrap: wrap;">
+                    <button class="btn-rpg" style="font-size: 0.75rem; padding: 4px 10px;" onclick="filterUserQuests('active')">Действующие</button>
+                    <button class="btn-rpg" style="font-size: 0.75rem; padding: 4px 10px;" onclick="filterUserQuests('completed')">Выполненные</button>
+                    <button class="btn-rpg" style="font-size: 0.75rem; padding: 4px 10px;" onclick="filterUserQuests('personal')">Личные</button>
+                </div>
+
+                <!-- Список квестов -->
+                <div style="background: rgba(0,0,0,0.3); padding: 10px; border-radius: 4px; height: 110px; overflow-y: auto; font-size: 0.85rem;" id="user-quest-list">
+                    <div class="user-quest active-quest" style="color: #e2e8f0; margin-bottom: 8px;">⚔ <strong>[Действующий]</strong> Генерация арта для Таверны</div>
+                    <div class="user-quest completed-quest" style="color: #94a3b8; display: none; margin-bottom: 8px;">✅ <strong>[Выполненный]</strong> Написать скрипт авторизации</div>
+                    <div class="user-quest personal-quest" style="color: #ffd700; display: none; margin-bottom: 8px;">📌 <strong>[Личный]</strong> Добавить библиотеку заклинаний</div>
+                </div>
+            </div>
+
+            <div style="text-align: center; margin-top: 20px;">
+                <button class="btn-rpg" onclick="closeProfile()">Вернуться в Таверну</button>
+            </div>
+        </div>
+    </div>
 
     <!-- === МАГИЧЕСКИЙ СВИТОК (ТЕКСТ КНИГИ) === -->
     <div id="scroll-modal" class="modal-overlay">
@@ -460,21 +503,49 @@ const app = initializeApp(firebaseConfig);
                     });
             });
         });
+    onAuthStateChanged(auth, (user) => {
+        if (user) {
+            loginBtns.forEach(btn => {
+                btn.textContent = `⚔ Профиль (${user.displayName})`;
+                btn.onclick = (e) => {
+                    e.preventDefault();
+                    
+                    // Заполняем карточку Искателя данными
+                    document.getElementById('profile-info').innerHTML = `
+                        <p style="margin-bottom: 6px;"><strong>Имя:</strong> <span style="color: #ffd700;">${user.displayName}</span></p>
+                        <p style="margin-bottom: 6px;"><strong>Ранг:</strong> Мастер Гильдии</p>
+                        <p style="margin-bottom: 6px;"><strong>Выполнено работ:</strong> 12 контрактов</p>
+                        <p style="margin-bottom: 6px;"><strong>Опыт:</strong> 1,450 / 2,000 XP (72%)</p>
+                    `;
+                    
+                    document.getElementById('profile-modal').classList.add('active');
+                };
+            });
+        } else {
+            loginBtns.forEach(btn => {
+                btn.textContent = 'Вступить';
+                btn.onclick = null;
+            });
+        }
+    });
 
-        onAuthStateChanged(auth, (user) => {
-            if (user) {
-                loginBtns.forEach(btn => {
-                    btn.textContent = `⚔ Профиль (${user.displayName})`;
-                    btn.onclick = (e) => {
-                        e.preventDefault();
-                        alert('Скоро здесь откроется окно вашего профиля!');
-                    };
-                });
+    // Функция переключения фильтров на доске заданий в профиле
+    window.filterUserQuests = function(type) {
+        const quests = document.querySelectorAll('#user-quest-list > div');
+        quests.forEach(q => {
+            if (q.classList.contains(type + '-quest')) {
+                q.style.display = 'block';
             } else {
-                loginBtns.forEach(btn => {
-                    btn.textContent = 'Вступить';
-                });
+                q.style.display = 'none';
             }
+        });
+    };
+
+    window.closeProfile = function() {
+        document.getElementById('profile-modal').classList.remove('active');
+    };
+
+
         });
                 // МАГИЯ БИБЛИОТЕКИ (ФИЛЬТРАЦИЯ КНИГ)
         window.filterBooks = function(category) {
