@@ -543,12 +543,19 @@ const app = initializeApp(firebaseConfig);
 
     window.closeProfile = function() {
         document.getElementById('profile-modal').classList.remove('active');
-    };
-
-
-        });
+        };
+        
                 // МАГИЯ БИБЛИОТЕКИ (ФИЛЬТРАЦИЯ КНИГ)
         window.filterBooks = function(category) {
+            const books = document.querySelectorAll('.book-item');
+        books.forEach(book => {
+            if (category === 'all' || book.classList.contains(category)) {
+                book.style.display = 'block';
+            } else {
+                book.style.display = 'none';
+            }
+        });
+    };
                     // ОТКРЫТИЕ И ЗАКРЫТИЕ СВИТКА
         window.openScroll = function(event) {
             event.preventDefault(); // Останавливаем прыжок страницы вверх
@@ -557,16 +564,6 @@ const app = initializeApp(firebaseConfig);
 
         window.closeScroll = function() {
             document.getElementById('scroll-modal').classList.remove('active');
-        };
-
-            const books = document.querySelectorAll('.book-item');
-            books.forEach(book => {
-                if (category === 'all' || book.classList.contains(category)) {
-                    book.style.display = 'block';
-                } else {
-                    book.style.display = 'none';
-                }
-            });
         };
 
     </script>
