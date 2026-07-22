@@ -211,6 +211,7 @@
                     <li><a href="#quests">Объявления</a></li>
                     <li><a href="#tavern">Таверна (Чат)</a></li>
                     <li><a href="#heroes">Герои</a></li>
+                      <li><a href="#library">Библиотека</a></li>
                 </ul>
             </nav>
             <a href="#contacts" class="btn-rpg">Связь</a>
@@ -314,6 +315,53 @@
             </div>
         </div>
     </section>
+        <!-- === АРХИВ ЗНАНИЙ (БИБЛИОТЕКА) === -->
+    <section id="library" class="quests-section">
+        <h2 class="cinzel-font gold-text section-title">Архив Знаний</h2>
+        <p style="text-align: center; color: #94a3b8; margin-bottom: 30px;">Изучай древние свитки и современные гайды.</p>
+
+        <!-- Кнопки категорий -->
+        <div class="category-filters" style="display: flex; justify-content: center; gap: 10px; flex-wrap: wrap; margin-bottom: 40px;">
+            <button class="btn-rpg" onclick="filterBooks('all')">Все свитки</button>
+            <button class="btn-rpg" onclick="filterBooks('fantasy')">Фэнтези</button>
+            <button class="btn-rpg" onclick="filterBooks('scifi')">Фантастика</button>
+            <button class="btn-rpg" onclick="filterBooks('history')">История</button>
+            <button class="btn-rpg" onclick="filterBooks('guides')">AI Гайды</button>
+        </div>
+
+        <!-- Полки с книгами -->
+        <div class="quest-board" id="library-grid">
+            
+            <!-- Книга 1: Фэнтези -->
+            <div class="quest-card glass-panel book-item fantasy">
+                <div class="quest-rank rank-master">Фэнтези</div>
+                <h3 class="cinzel-font">Драконы Пустоши</h3>
+                <p>Древние легенды о первых Искателях, магии и забытых рунах.</p>
+                <br>
+                <a href="#" class="btn-rpg" style="font-size: 0.8rem; padding: 5px 15px;">Читать</a>
+            </div>
+
+            <!-- Книга 2: Фантастика -->
+            <div class="quest-card glass-panel book-item scifi">
+                <div class="quest-rank rank-legend">Фантастика</div>
+                <h3 class="cinzel-font">Кибер-Гильдия 2077</h3>
+                <p>Мрачное будущее, где миром правят нейросети и синдикаты.</p>
+                <br>
+                <a href="#" class="btn-rpg" style="font-size: 0.8rem; padding: 5px 15px;">Читать</a>
+            </div>
+
+            <!-- Книга 3: История -->
+            <div class="quest-card glass-panel book-item history">
+                <div class="quest-rank rank-seeker">История</div>
+                <h3 class="cinzel-font">Падение Империи</h3>
+                <p>Хроники великих войн и становления нашей Таверны.</p>
+                <br>
+                <a href="#" class="btn-rpg" style="font-size: 0.8rem; padding: 5px 15px;">Читать</a>
+            </div>
+
+        </div>
+    </section>
+
 
     <!-- КОНТАКТЫ -->
     <section id="contacts" class="contacts-section">
@@ -390,6 +438,18 @@ const app = initializeApp(firebaseConfig);
                 });
             }
         });
+                // МАГИЯ БИБЛИОТЕКИ (ФИЛЬТРАЦИЯ КНИГ)
+        window.filterBooks = function(category) {
+            const books = document.querySelectorAll('.book-item');
+            books.forEach(book => {
+                if (category === 'all' || book.classList.contains(category)) {
+                    book.style.display = 'block';
+                } else {
+                    book.style.display = 'none';
+                }
+            });
+        };
+
     </script>
 
 </body>
