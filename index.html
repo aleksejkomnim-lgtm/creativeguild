@@ -503,6 +503,7 @@ const app = initializeApp(firebaseConfig);
                     });
             });
         });
+      // Обработка авторизации и динамика профиля
     onAuthStateChanged(auth, (user) => {
         if (user) {
             loginBtns.forEach(btn => {
@@ -510,12 +511,19 @@ const app = initializeApp(firebaseConfig);
                 btn.onclick = (e) => {
                     e.preventDefault();
                     
-                    // Заполняем карточку Искателя данными
+                    // Загружаем сохраненный опыт из памяти браузера
+                    let userXP = localStorage.getItem('guild_xp_' + user.uid) || 1450;
+                    let userQuestsCount = localStorage.getItem('guild_quests_' + user.uid) || 12;
+                    let userRank = userXP > 2000 ? 'Элитный Искатель' : 'Новичок Гильдии';
+
+                    // Заполняем карточку Искателя реальными данными
                     document.getElementById('profile-info').innerHTML = `
                         <p style="margin-bottom: 6px;"><strong>Имя:</strong> <span style="color: #ffd700;">${user.displayName}</span></p>
-                        <p style="margin-bottom: 6px;"><strong>Ранг:</strong> Мастер Гильдии</p>
-                        <p style="margin-bottom: 6px;"><strong>Выполнено работ:</strong> 12 контрактов</p>
-                        <p style="margin-bottom: 6px;"><strong>Опыт:</strong> 1,450 / 2,000 XP (72%)</p>
+                        <p style="margin-bottom: 6px;"><strong>Email:</strong> <span style="color: #94a3b8;">${user.email}</span></p>
+                        <p style="margin-bottom: 6px;"><strong>Ранг:</strong> <span style="color: #38bdf8;">${userRank}</span></p>
+                        <p style="margin-bottom: 6px;"><strong>Выполнено контрактов:</strong> <span id="quests-count">${userQuestsCount}</span></p>
+                        <p style="margin-bottom: 6px;"><strong>Опыт:</strong> <span id="xp-display">${userXP}</span> / 2,000 XP</p>
+                        <button class="btn-rpg" style="font-size: 0.75rem; margin-top: 10px;" onclick="addGuildXP('${user.uid}')">✨ Получить +100 XP</button>
                     `;
                     
                     document.getElementById('profile-modal').classList.add('active');
@@ -529,7 +537,16 @@ const app = initializeApp(firebaseConfig);
         }
     });
 
-    // Функция переключения фильтров на доске заданий в профиле
+    // Начисление опыта (интерактивная кнопка)
+    window.addGuildXP = function(uid) {
+        let xpElem = document.getElementById('xp-display');
+        let currentXP = parseInt(xpElem.textContent) + 100;
+        xpElem.textContent = currentXP;
+        localStorage.setItem('guild_xp_' + uid, currentXP);
+        alert('Вы успешно завершили внутренний квест и получили +100 опыта!');
+    };
+
+    // Интерактивная фильтрация личной доски заданий
     window.filterUserQuests = function(type) {
         const quests = document.querySelectorAll('#user-quest-list > div');
         quests.forEach(q => {
@@ -541,13 +558,14 @@ const app = initializeApp(firebaseConfig);
         });
     };
 
+    // Закрытие профиля
     window.closeProfile = function() {
         document.getElementById('profile-modal').classList.remove('active');
-        };
-        
-                // МАГИЯ БИБЛИОТЕКИ (ФИЛЬТРАЦИЯ КНИГ)
-        window.filterBooks = function(category) {
-            const books = document.querySelectorAll('.book-item');
+    };
+
+    // МАГИЯ БИБЛИОТЕКИ (ФИЛЬТРАЦИЯ КНИГ)
+    window.filterBooks = function(category) {
+        const books = document.querySelectorAll('.book-item');
         books.forEach(book => {
             if (category === 'all' || book.classList.contains(category)) {
                 book.style.display = 'block';
@@ -556,15 +574,17 @@ const app = initializeApp(firebaseConfig);
             }
         });
     };
-                    // ОТКРЫТИЕ И ЗАКРЫТИЕ СВИТКА
-        window.openScroll = function(event) {
-            event.preventDefault(); // Останавливаем прыжок страницы вверх
-            document.getElementById('scroll-modal').classList.add('active');
-        };
 
-        window.closeScroll = function() {
-            document.getElementById('scroll-modal').classList.remove('active');
-        };
+    // ОТКРЫТИЕ И ЗАКРЫТИЕ СВИТКА
+    window.openScroll = function(event) {
+        event.preventDefault();
+        document.getElementById('scroll-modal').classList.add('active');
+    };
+
+    window.closeScroll = function() {
+        document.getElementById('scroll-modal').classList.remove('active');
+    };
+  
 
     </script>
 
