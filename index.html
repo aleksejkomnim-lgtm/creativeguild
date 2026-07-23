@@ -230,6 +230,8 @@
             <nav>
                 <ul class="menu">
                     <li><a href="#hall">Зал</a></li>
+                    <a href="#" class="nav-link" onclick="openMarket(event)">⚖️ Доска контрактов</a>
+
                     <li><a href="#quests">Объявления</a></li>
                     <li><a href="#tavern">Таверна (Чат)</a></li>
                     <li><a href="#heroes">Герои</a></li>
@@ -385,6 +387,31 @@
         </div>
     </section>
     <!-- === РАСШИРЕННЫЙ ПРОФИЛЬ ИСКАТЕЛЯ С ДОСКОЙ ЗАДАНИЙ === -->
+        <!-- Окно Торговой площади (Биржа) -->
+    <div id="market-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn" onclick="closeMarket()">&times;</span>
+            <h2 style="color: #ffd700; text-align: center; margin-bottom: 20px;">⚖️ Доска Контрактов</h2>
+            
+            <button class="btn-rpg" style="width: 100%; margin-bottom: 20px;" onclick="showOrderForm()">📜 Опубликовать новый заказ</button>
+            
+            <!-- Форма создания заказа -->
+            <div id="order-form" style="display: none; background: rgba(0, 0, 0, 0.4); padding: 15px; border-radius: 8px; margin-bottom: 25px; border: 1px solid #475569;">
+                <h3 style="color: #38bdf8; margin-top: 0; font-size: 1.1rem;">Детали контракта</h3>
+                <input type="text" id="order-title" placeholder="Кратко (например: Нужен ИИ-сценарий)" style="width: 100%; padding: 10px; margin-bottom: 10px; background: #1e293b; color: white; border: 1px solid #475569; border-radius: 4px; box-sizing: border-box;">
+                <textarea id="order-desc" placeholder="Подробное ТЗ..." style="width: 100%; padding: 10px; margin-bottom: 10px; background: #1e293b; color: white; border: 1px solid #475569; border-radius: 4px; height: 90px; box-sizing: border-box; resize: vertical;"></textarea>
+                <input type="text" id="order-contact" placeholder="Ваш Telegram (например: @username)" style="width: 100%; padding: 10px; margin-bottom: 15px; background: #1e293b; color: white; border: 1px solid #475569; border-radius: 4px; box-sizing: border-box;">
+                <button class="btn-rpg" style="background: #22c55e; width: 100%;" onclick="submitContract()">Отправить в Гильдию</button>
+            </div>
+
+            <!-- Список заказов -->
+            <h3 style="border-bottom: 1px solid #475569; padding-bottom: 10px; font-size: 1.2rem;">Свежие заказы</h3>
+            <div id="contracts-list">
+                <p style="text-align: center; color: #94a3b8; font-style: italic;">Подключение к облаку... Загрузка контрактов...</p>
+            </div>
+        </div>
+    </div>
+
     <div id="profile-modal" class="modal-overlay">
         <div class="modal-content glass-panel glow-border" style="text-align: left; max-width: 600px;">
             <button class="close-btn" onclick="closeProfile()">✖ Закрыть</button>
@@ -464,6 +491,7 @@
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
         import { getAuth, signInWithPopup, GoogleAuthProvider, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+        import { getFirestore, collection, addDoc, getDocs, query, orderBy, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
         // 👇 ВСТАВЬТЕ ВАШ СКОПИРОВАННЫЙ КОД FIREBASE РОВНО ПОД ЭТОЙ СТРОКОЙ 👇
         
@@ -483,6 +511,7 @@ const firebaseConfig = {
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
 
 
         // 👆 ВСТАВЬТЕ ВАШ СКОПИРОВАННЫЙ КОД FIREBASE РОВНО НАД ЭТОЙ СТРОКОЙ 👆
@@ -584,7 +613,92 @@ const app = initializeApp(firebaseConfig);
     window.closeScroll = function() {
         document.getElementById('scroll-modal').classList.remove('active');
     };
-  
+      // Открытие биржи и загрузка контрактов
+    window.openMarket = function(event) {
+        if(event) event.preventDefault();
+        document.getElementById('market-modal').classList.add('active');
+        window.loadContracts(); 
+    };
+
+    // Закрытие биржи
+    window.closeMarket = function() {
+        document.getElementById('market-modal').classList.remove('active');
+        document.getElementById('order-form').style.display = 'none';
+    };
+
+    window.showOrderForm = function() {
+        document.getElementById('order-form').style.display = 'block';
+    };
+
+    // Отправка контракта в облако
+    window.submitContract = async function() {
+        const title = document.getElementById('order-title').value;
+        const desc = document.getElementById('order-desc').value;
+        const contact = document.getElementById('order-contact').value;
+
+        if(!title || !desc || !contact) {
+            alert('Пожалуйста, заполните все поля контракта!');
+            return;
+        }
+
+        try {
+            await addDoc(collection(db, "contracts"), {
+                title: title,
+                description: desc,
+                contact: contact.replace('@', ''), // Очищаем от @ для корректной ссылки
+                timestamp: serverTimestamp()
+            });
+            alert('Контракт успешно опубликован!');
+            
+            // Очищаем форму
+            document.getElementById('order-title').value = '';
+            document.getElementById('order-desc').value = '';
+            document.getElementById('order-contact').value = '';
+            document.getElementById('order-form').style.display = 'none';
+            
+            // Сразу обновляем доску, чтобы показать новый заказ
+            window.loadContracts(); 
+        } catch (e) {
+            console.error("Ошибка публикации: ", e);
+            alert('Не удалось опубликовать контракт. Проверьте консоль.');
+        }
+    };
+
+    // Чтение контрактов из облака
+    window.loadContracts = async function() {
+        const list = document.getElementById('contracts-list');
+        list.innerHTML = '<p style="text-align: center; color: #94a3b8;">Ищем свежие контракты...</p>';
+        
+        try {
+            // Запрашиваем контракты, сортируя по новизне
+            const q = query(collection(db, "contracts"), orderBy("timestamp", "desc"));
+            const querySnapshot = await getDocs(q);
+            
+            list.innerHTML = ''; 
+            
+            if (querySnapshot.empty) {
+                list.innerHTML = '<p style="text-align: center; color: #94a3b8;">Доска контрактов пока пуста. Опубликуйте первый заказ!</p>';
+                return;
+            }
+
+            // Отрисовываем каждый заказ
+            querySnapshot.forEach((doc) => {
+                const data = doc.data();
+                const contractHtml = `
+                    <div style="background: #1e293b; border: 1px solid #475569; border-radius: 8px; padding: 15px; margin-bottom: 15px;">
+                        <h4 style="color: #ffd700; margin-top: 0; margin-bottom: 10px; font-size: 1.1rem;">📜 ${data.title}</h4>
+                        <p style="color: #cbd5e1; font-size: 0.9rem; margin-bottom: 15px;">${data.description}</p>
+                        <a href="https://t.me/${data.contact}" target="_blank" class="btn-rpg" style="background: #3b82f6; text-decoration: none; display: inline-block; font-size: 0.85rem; padding: 8px 12px;">💬 Откликнуться (Telegram)</a>
+                    </div>
+                `;
+                list.innerHTML += contractHtml;
+            });
+        } catch (e) {
+            console.error("Ошибка загрузки: ", e);
+            list.innerHTML = '<p style="text-align: center; color: #ef4444;">Не удалось связаться с Архивом Гильдии (База данных недоступна).</p>';
+        }
+    };
+
 
     </script>
 
