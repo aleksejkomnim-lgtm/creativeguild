@@ -40,8 +40,84 @@
     </div>
 </div>
 
+
 <script type="module">
-    // Здесь мы пропишем заклинания для связи с базой данных
+    // 1. Импортируем нужные заклинания Firebase
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
+    import { getFirestore, collection, getDocs, doc, deleteDoc } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
+
+    // 2. ВСТАВЬТЕ СВОЙ firebaseConfig СЮДА (скопируйте из index.html)
+    const firebaseConfig = {
+        // apiKey: "ВАШ_КЛЮЧ",
+        // authDomain: "ВАШ_ДОМЕН",
+        // ... и так далее
+    };
+
+    // 3. Инициализируем базу данных
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+
+    // 4. Функция загрузки всех контрактов из базы
+    async function loadAdminContracts() {
+        const list = document.getElementById('admin-contracts-list');
+        list.innerHTML = '<tr><td colspan="3" style="text-align: center; color: #94a3b8;">Связь с Архивом...</td></tr>';
+
+        try {
+            const querySnapshot = await getDocs(collection(db, "contracts"));
+            list.innerHTML = '';
+
+            if (querySnapshot.empty) {
+                list.innerHTML = '<tr><td colspan="3" style="text-align: center; color: #94a3b8;">Доска контрактов пуста.</td></tr>';
+                return;
+            }
+
+            // Отрисовываем каждый заказ в виде строки таблицы
+            querySnapshot.forEach((documentSnapshot) => {
+                const data = documentSnapshot.data();
+                const docId = documentSnapshot.id; // Уникальный ID заказа в базе
+
+                const row = `
+                    <tr>
+                        <td style="color: #cbd5e1;">
+                            <strong style="color: #ffd700;">${data.title}</strong><br>
+                            <small style="color: #64748b;">${data.description.substring(0, 60)}...</small>
+                        </td>
+                        <td style="color: #38bdf8;">@${data.contact}</td>
+                        <td>
+                            <button class="admin-btn" onclick="deleteContract('${docId}')">❌ Удалить</button>
+                        </td>
+                    </tr>
+                `;
+                list.innerHTML += row;
+            });
+        } catch (e) {
+            console.error("Ошибка загрузки в админке: ", e);
+            list.innerHTML = '<tr><td colspan="3" style="text-align: center; color: #ef4444;">Ошибка связи с базой данных.</td></tr>';
+        }
+    }
+
+    // 5. Функция удаления контракта (привязана к window для работы из HTML)
+    window.deleteContract = async function(docId) {
+        // Запрашиваем подтверждение, чтобы не удалить случайно
+        if(confirm('Магистр, вы уверены, что хотите навсегда стереть этот контракт из Архива?')) {
+            try {
+                // Уничтожаем документ по его ID
+                await deleteDoc(doc(db, "contracts", docId));
+                alert('Контракт успешно обращен в пепел!');
+                
+                // Сразу обновляем таблицу
+                loadAdminContracts(); 
+            } catch (e) {
+                console.error("Ошибка удаления: ", e);
+                alert('Темные силы помешали удалению. Проверьте консоль.');
+            }
+        }
+    };
+
+    // 6. Запускаем загрузку таблицы сразу при открытии Кабинета
+    window.onload = loadAdminContracts;
+</script>
+
 </script>
 
 </body>
