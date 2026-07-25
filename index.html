@@ -539,9 +539,21 @@ trackVisit();
             btn.addEventListener('click', (e) => {
                 e.preventDefault();
                 signInWithPopup(auth, provider)
-                    .then((result) => {
-                        alert(`Добро пожаловать в Гильдию, ${result.user.displayName}!`);
-                    }).catch((error) => {
+                 .then(async (result) => {
+    const user = result.user;
+    alert(`Добро пожаловать в Гильдию, ${user.displayName}!`);
+    
+    try {
+        await setDoc(doc(db, "users", user.uid), {
+            name: user.displayName,
+            email: user.email,
+            lastLogin: serverTimestamp()
+        }, { merge: true });
+    } catch (e) {
+        console.error("Ошибка сохранения профиля:", e);
+    }
+   
+                   }) .catch((error) => {
                         console.error(error);
                         alert("Ошибка! Проверьте, включен ли Google в Authentication.");
                     });
