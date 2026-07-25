@@ -491,7 +491,7 @@
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
         import { getAuth, signInWithPopup, GoogleAuthProvider, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
-        import { getFirestore, collection, addDoc, getDocs, query, orderBy, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+        import { getFirestore, collection, addDoc, getDocs, query, orderBy, serverTimestamp, doc, updateDoc, increment, setDoc } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
 import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-analytics.js";
 
         // 👇 ВСТАВЬТЕ ВАШ СКОПИРОВАННЫЙ КОД FIREBASE РОВНО ПОД ЭТОЙ СТРОКОЙ 👇
@@ -514,6 +514,19 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 const analytics = getAnalytics(app);
+// Фиксация визита в базе данных
+async function trackVisit() {
+    try {
+        const statsRef = doc(db, "stats", "visits");
+        await updateDoc(statsRef, {
+            count: increment(1)
+        });
+    } catch (e) {
+        const statsRef = doc(db, "stats", "visits");
+        await setDoc(statsRef, { count: 1 }, { merge: true });
+    }
+}
+trackVisit();
 
 
         // 👆 ВСТАВЬТЕ ВАШ СКОПИРОВАННЫЙ КОД FIREBASE РОВНО НАД ЭТОЙ СТРОКОЙ 👆
