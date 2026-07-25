@@ -8,7 +8,11 @@
         body { background-color: #0f172a; color: #e2e8f0; font-family: sans-serif; margin: 0; padding: 20px; }
         .admin-container { max-width: 1000px; margin: 0 auto; background: #1e293b; padding: 20px; border-radius: 8px; border: 1px solid #475569; }
         h1 { color: #ffd700; text-align: center; border-bottom: 1px solid #475569; padding-bottom: 15px; }
-        .section { margin-top: 30px; }
+        .stats-grid { display: flex; gap: 20px; margin-bottom: 30px; }
+        .stat-card { flex: 1; background: #0f172a; padding: 15px; border-radius: 8px; border: 1px solid #334155; text-align: center; }
+        .stat-value { font-size: 2rem; font-weight: bold; color: #38bdf8; margin-top: 5px; }
+        .stat-label { color: #94a3b8; font-size: 0.9rem; }
+        .section { margin-top: 20px; }
         .admin-btn { background: #ef4444; color: white; border: none; padding: 8px 12px; border-radius: 4px; cursor: pointer; }
         .admin-btn:hover { background: #dc2626; }
         table { width: 100%; border-collapse: collapse; margin-top: 15px; }
@@ -21,6 +25,18 @@
 <div class="admin-container">
     <h1>👁️ Кабинет Магистра</h1>
     
+    <!-- Блок Статистики -->
+    <div class="stats-grid">
+        <div class="stat-card">
+            <div class="stat-label">Всего визитов на сайт</div>
+            <div class="stat-value" id="total-visits">0</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-label">Активных контрактов</div>
+            <div class="stat-value" id="total-contracts">0</div>
+        </div>
+    </div>
+
     <div class="section">
         <h2 style="color: #f8fafc;">Управление контрактами</h2>
         <table>
@@ -40,14 +56,11 @@
     </div>
 </div>
 
-
 <script type="module">
-    // 1. Импортируем нужные заклинания Firebase
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
-    import { getFirestore, collection, getDocs, doc, deleteDoc } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
+    import { getFirestore, collection, getDocs, doc, getDoc, deleteDoc } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
 
-    // 2. ВСТАВЬТЕ СВОЙ firebaseConfig СЮДА (скопируйте из index.html)
-        const firebaseConfig = {
+    const firebaseConfig = {
         apiKey: "AIzaSyAnOK6tu3LC4NN1NA34-5ujwVnDPSjc2K8",
         authDomain: "creativeguild.firebaseapp.com",
         projectId: "creativeguild",
@@ -57,28 +70,36 @@
         measurementId: "G-C94DMDTOKV"
     };
 
-    // 3. Инициализируем базу данных
     const app = initializeApp(firebaseConfig);
     const db = getFirestore(app);
 
-    // 4. Функция загрузки всех контрактов из базы
-    async function loadAdminContracts() {
-        const list = document.getElementById('admin-contracts-list');
-        list.innerHTML = '<tr><td colspan="3" style="text-align: center; color: #94a3b8;">Связь с Архивом...</td></tr>';
+    // Функция загрузки всей статистики и контрактов
+    async function loadAdminData() {
+        // 1. Загрузка количества просмотров
+        try {
+            const statsSnap = await getDoc(doc(db, "stats", "visits"));
+            if (statsSnap.exists()) {
+                document.getElementById('total-visits').innerText = statsSnap.data().count || 0;
+            }
+        } catch (e) {
+            console.error("Ошибка загрузки статистики визитов: ", e);
+        }
 
+        // 2. Загрузка контрактов
+        const list = document.getElementById('admin-contracts-list');
         try {
             const querySnapshot = await getDocs(collection(db, "contracts"));
             list.innerHTML = '';
+            document.getElementById('total-contracts').innerText = querySnapshot.size;
 
             if (querySnapshot.empty) {
                 list.innerHTML = '<tr><td colspan="3" style="text-align: center; color: #94a3b8;">Доска контрактов пуста.</td></tr>';
                 return;
             }
 
-            // Отрисовываем каждый заказ в виде строки таблицы
             querySnapshot.forEach((documentSnapshot) => {
                 const data = documentSnapshot.data();
-                const docId = documentSnapshot.id; // Уникальный ID заказа в базе
+                const docId = documentSnapshot.id;
 
                 const row = `
                     <tr>
@@ -95,35 +116,25 @@
                 list.innerHTML += row;
             });
         } catch (e) {
-            console.error("Ошибка загрузки в админке: ", e);
+            console.error("Ошибка загрузки контрактов: ", e);
             list.innerHTML = '<tr><td colspan="3" style="text-align: center; color: #ef4444;">Ошибка связи с базой данных.</td></tr>';
         }
     }
 
-    // 5. Функция удаления контракта (привязана к window для работы из HTML)
     window.deleteContract = async function(docId) {
-        // Запрашиваем подтверждение, чтобы не удалить случайно
-        if(confirm('Магистр, вы уверены, что хотите навсегда стереть этот контракт из Архива?')) {
+        if(confirm('Магистр, вы уверены, что хотите удалить этот контракт?')) {
             try {
-                // Уничтожаем документ по его ID
                 await deleteDoc(doc(db, "contracts", docId));
-                alert('Контракт успешно обращен в пепел!');
-                
-                // Сразу обновляем таблицу
-                loadAdminContracts(); 
+                alert('Контракт удален!');
+                loadAdminData();
             } catch (e) {
                 console.error("Ошибка удаления: ", e);
-                alert('Темные силы помешали удалению. Проверьте консоль.');
             }
         }
     };
 
-    // 6. Запускаем загрузку таблицы сразу при открытии Кабинета
-    window.onload = loadAdminContracts;
-</script>
-
+    window.onload = loadAdminData;
 </script>
 
 </body>
 </html>
-
